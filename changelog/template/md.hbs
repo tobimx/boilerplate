@@ -1,0 +1,5 @@
+# CHANGELOG
+
+{{#each commits}}
+  - {{#each tags}}{{#eq "feature" this}}📌{{/eq}}{{#eq "bug" this}}🕷{{/eq}}{{#has this "TICKET-"}}[{{{this}}}](https://jira.com/issue/{{{this}}}){{/has}}{{/each}} [{{{subject}}}](https://github.com/foo/bar/{{{hash}}})
+{{/each}}

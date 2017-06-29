@@ -1,0 +1,13 @@
+{
+  "name": "changelog",
+  "version": "1.0.0",
+  "description": "Semi automated changelog creation",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^3.0.1",
+    "handlebars": "^4.0.10",
+    "handlebars-helpers": "^0.8.2"
+  }
+}
