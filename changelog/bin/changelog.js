@@ -12,19 +12,14 @@ const path = require('path');
 const handlebars = require('handlebars');
 const handlebarsHelpers = require('handlebars-helpers')({ handlebars });
 
-const formatCommitJson = (commits, template) => {
-  if (!template) return JSON.stringify(commits, null, '  ');
-
-  const tpl = handlebars.compile(fs.readFileSync(path.resolve('./', template), {encoding: 'utf8'}))
-  return tpl({commits});
-}
-
-const dumpChangelog = (changelog, target) => {
-  if (!target) return;
-  fse.outputFileSync(path.resolve('./', target), changelog, {encoding: 'utf8'});
-}
-
 const createCommitJson = (startTag, endTag, options) => {
+  const formatCommitJson = (commits, template) => {
+    if (!template) return JSON.stringify(commits, null, '  ');
+
+    const tpl = handlebars.compile(fs.readFileSync(path.resolve('./', template), {encoding: 'utf8'}))
+    return tpl({commits, startTag, endTag});
+  };
+
   const command = [
     endTag ? `git log ${startTag}...${endTag}` : `git log ${startTag}`,
     `--pretty=format:',{ "hash":"%H", "committer":"%cn", "subject":"%s", "body":"%b" }'`,
