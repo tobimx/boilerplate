@@ -9,6 +9,8 @@ node v1.1 v1.2 --out="temp/changelog.md" --tpl="template/md.hbs"
 `out` and `tpl` parameters are optional. By default the result is
 send to stdout in a json format.
 
+Second tag name paramter is also optional.
+
 ### Result Object
 
 ~~~json

@@ -26,7 +26,7 @@ const dumpChangelog = (changelog, target) => {
 
 const createCommitJson = (startTag, endTag, options) => {
   const command = [
-    `git log ${startTag}...${endTag}`,
+    endTag ? `git log ${startTag}...${endTag}` : `git log ${startTag}`,
     `--pretty=format:',{ "hash":"%H", "committer":"%cn", "subject":"%s", "body":"%b" }'`,
     `--reverse --grep "#changelog"`
   ].join(' ');
@@ -73,10 +73,10 @@ const args = process.argv.slice(2).reduce((result, arg, index) => {
   return result;
 }, {options : {}});
 
-if (!args.startTag || !args.endTag) {
+if (!args.startTag) {
   throw new Error(`
     Mandatory arguments missing!
-    Usage: 'node bin/changelog.js <startTag> <endTag> [--out=<dir/filename> --tpl=<path-to-template]>'
+    Usage: 'node bin/changelog.js <startTag> [<endTag> --out=<dir/filename> --tpl=<path-to-template]>'
   `);
 }
 
