@@ -19,7 +19,7 @@ const createCommitJson = (startTag, endTag, options) => {
     if (!template) return JSON.stringify(commits, null, '  ');
 
     const tpl = handlebars.compile(fs.readFileSync(path.resolve('./', template), { encoding: 'utf8' }));
-    return tpl({ commits, startTag, endTag });
+    return tpl({ commits, startTag, endTag, options });
   };
 
   const command = [
