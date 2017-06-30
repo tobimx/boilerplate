@@ -5,19 +5,21 @@
  * and apply data to a given template
  */
 
+/* eslint quotes:0 no-param-reassign:0 */
+
 const fs = require('fs');
 const fse = require('fs-extra');
 const exec = require('child_process').exec;
 const path = require('path');
 const handlebars = require('handlebars');
-const handlebarsHelpers = require('handlebars-helpers')({ handlebars });
+require('handlebars-helpers')({ handlebars });
 
 const createCommitJson = (startTag, endTag, options) => {
   const formatCommitJson = (commits, template) => {
     if (!template) return JSON.stringify(commits, null, '  ');
 
-    const tpl = handlebars.compile(fs.readFileSync(path.resolve('./', template), {encoding: 'utf8'}))
-    return tpl({commits, startTag, endTag});
+    const tpl = handlebars.compile(fs.readFileSync(path.resolve('./', template), { encoding: 'utf8' }));
+    return tpl({ commits, startTag, endTag });
   };
 
   const command = [
@@ -26,13 +28,13 @@ const createCommitJson = (startTag, endTag, options) => {
     `--reverse --grep "#changelog"`
   ].join(' ');
 
-  exec(command, (err, stdout, stderr) => {
+  exec(command, (err, stdout) => {
     if (err) {
       throw err;
     }
 
     let commits = null;
-    let tagFinder = /#\b[a-zA-Z0-9-_\.]{3,}\b/g;
+    const tagFinder = /#\b[a-zA-Z0-9-_.]{3,}\b/g;
 
     try {
       commits = JSON.parse(`[${stdout.substr(1)}]`.replace(/\n/g, ''));
@@ -52,7 +54,7 @@ const createCommitJson = (startTag, endTag, options) => {
 
     const changelog = formatCommitJson(commits, options.tpl);
     if (!options.out) console.log(changelog);
-    else fse.outputFileSync(path.resolve('./', options.out), changelog, {encoding: 'utf8'});
+    else fse.outputFileSync(path.resolve('./', options.out), changelog, { encoding: 'utf8' });
   });
 };
 
@@ -66,7 +68,7 @@ const args = process.argv.slice(2).reduce((result, arg, index) => {
 
   result[param[index]] = arg;
   return result;
-}, {options : {}});
+}, { options: {} });
 
 if (!args.startTag) {
   throw new Error(`
