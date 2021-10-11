@@ -1,3 +1,3 @@
 # boilerplate
 
-![steps][https://github.com/tobimx/boilerplate/blob/master/step1.png]
+![steps](https://github.com/tobimx/boilerplate/blob/master/step1.png)
